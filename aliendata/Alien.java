@@ -1,7 +1,7 @@
 package aliendata;
 
 
-public class RegisterAliens {
+public class Alien {
 
     private String codeName;
     private String bloodColor;

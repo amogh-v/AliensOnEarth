@@ -1,18 +1,19 @@
 package alienapp;
 
 
-import aliendata.RegisterAliens;
-import exportdata.Exporter;
-import exportdata.ExporterFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import aliendata.Alien;
+import exportdata.Exporter;
+import exportdata.ExporterFactory;
 
 
 public class AlienApplication {
@@ -21,7 +22,7 @@ public class AlienApplication {
         
         System.out.println("Welcome to Alien Registration Application");
         
-        ArrayList<RegisterAliens> alienArray = readAlienInfo();
+        List<Alien> aliens = readAlienInfo();
         
         System.out.println("Enter export format as Text or PDF: \n");
         BufferedReader bReader = null;
@@ -33,7 +34,7 @@ public class AlienApplication {
             
             if(ex != null) {
             //Can input a custom configurable name using config.properties file
-            ex.export(generateExportMap(alienArray), "/home/hduser/alien/");
+            ex.export(generateExportMap(aliens), "/home/hduser/alien/");
             } else {
                 System.out.println("Unknown file format");
             }
@@ -50,11 +51,11 @@ public class AlienApplication {
         }
     }
     
-    public static Map<String,String> generateExportMap(ArrayList<RegisterAliens> alienArray) {
+    public static Map<String,String> generateExportMap(List<Alien> alienArray) {
         //LinkedHashMap will preserve insertion order
         Map<String,String> data = new LinkedHashMap<String,String>();
         for(int i=0; i < alienArray.size(); i++) {
-        RegisterAliens regAliens = alienArray.get(i);
+        Alien regAliens = alienArray.get(i);
         data.put("Code Name of Alien "+i,regAliens.getCodeName());
         data.put("Blood Color of Alien "+i,regAliens.getBloodColor());
         data.put("No. of Antennas of Alien "+i,String.valueOf(regAliens.getNoOfAntennas()));
@@ -65,30 +66,30 @@ public class AlienApplication {
     }
     
     @SuppressWarnings("finally")
-	public static ArrayList<RegisterAliens> readAlienInfo() {
-        ArrayList<RegisterAliens> alienArray = new ArrayList<>();
+	public static List<Alien> readAlienInfo() {
+        List<Alien> aliens = new ArrayList<Alien>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Enter q to quit entering in console once information is included");
             do{
-            RegisterAliens regAliens = new RegisterAliens();
+            Alien alien = new Alien();
             System.out.println("Enter Alien Code Name:\n");
-            regAliens.setCodeName(br.readLine());
+            alien.setCodeName(br.readLine());
             
             System.out.println("Enter Alien Blood Color:\n");
-            regAliens.setBloodColor(br.readLine());
+            alien.setBloodColor(br.readLine());
             
             System.out.println("Enter No. of antennas:\n");
-            regAliens.setNoOfAntennas(Integer.parseInt(br.readLine()));
+            alien.setNoOfAntennas(Integer.parseInt(br.readLine()));
             
             System.out.println("Enter No. of legs:\n");
-            regAliens.setNoOfLegs(Integer.parseInt(br.readLine()));
+            alien.setNoOfLegs(Integer.parseInt(br.readLine()));
             
             System.out.println("Enter Alien Home Planet:\n");
-            regAliens.setHomePlanet(br.readLine());
+            alien.setHomePlanet(br.readLine());
             
-            alienArray.add(regAliens);
+            aliens.add(alien);
             }while(!br.readLine().equalsIgnoreCase("q"));
            
         } catch (IOException ioe) {
@@ -99,7 +100,7 @@ public class AlienApplication {
             if(br == null) {
                 System.out.println("Error in reading. Investigate");
             }
-            return alienArray;
+            return aliens;
         }
 
     }
