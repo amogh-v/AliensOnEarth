@@ -29,7 +29,7 @@ public class AlienApplication {
         Exporter ex = null;
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in));
-            String format = bReader.readLine().toLowerCase();
+            String format = bReader.readLine();
             try {
             	ex = (Exporter) Class.forName("exportdata." + format + "Writer").newInstance();
             	} catch (InstantiationException e) {
