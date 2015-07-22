@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import aliendata.Alien;
 import exportdata.Exporter;
-
+import exportdata.ExporterFactory;
 
 
 public class AlienApplication {
@@ -30,15 +30,7 @@ public class AlienApplication {
         try {
             bReader = new BufferedReader(new InputStreamReader(System.in));
             String format = bReader.readLine().toLowerCase();
-            try {
-            	ex = (Exporter) Class.forName("exportdata." + format + "Writer").newInstance();
-            	} catch (InstantiationException e) {
-            	e.printStackTrace();
-            	} catch (IllegalAccessException e) {
-            	e.printStackTrace();
-            	} catch (ClassNotFoundException e) {
-            	e.printStackTrace();
-            	}
+            ex = ExporterFactory.getExporter(format);
             
             if(ex != null) {
             //Can input a custom configurable name using config.properties file
